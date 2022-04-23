@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        #container{
+            width: 70%;
+            height: 30rem;
+            margin: auto;
+        }
+        </style>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    let id = JSON.parse(localStorage.getItem("videoId"))
+   let vId = id[0]
+
+    let iframe = document.createElement("iframe");
+           iframe.src = `https://www.youtube.com/embed/${vId}`;
+           iframe.width = "100%";
+           iframe.height = "100%"
+           iframe.allow = "fullscreen"
+
+           document.getElementById("container").append(iframe)
+</script>

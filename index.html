@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Youtube</title>
+        <script
+        src="https://kit.fontawesome.com/24c494a6b6.js"
+        crossorigin="anonymous"
+        ></script>
+    <style>
+        body{
+            margin: 0px;
+            background-color: black;
+        }
+      
+        #navbar{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgb(30, 30, 30);
+            color: white;
+           position: fixed;
+           top: 0;
+           left: 0;
+           right: 0;
+        }
+        #logo{
+            display: flex;
+            font-size: 35px;
+            color:red;
+
+        }
+        #logo>h2{
+            margin: 0px;
+            font-size: 25px;
+            color: white;
+        }
+       
+        #nav-left-child{
+            display: flex;
+            /* border: 1px solid green; */
+            font-size: 25px;
+            padding: 5px 10px;
+        
+        }
+        #nav-left-child>i{
+            margin-right: 20px;
+            
+        }
+        #input{
+           background-color: rgb(63, 63, 63);
+            width: 40%;
+            height: 2.3rem;
+           font-size: 20px;
+            
+        }
+        #input>input{
+             width: 90%;
+             height: 2rem;
+             font-size: 17px;
+             background-color: black;
+             color: white;
+             border: none;
+        }
+        #input>i{
+            padding: 6px;
+            
+        }
+        #icon{
+          
+            font-size: 25px;
+            margin-right: 10px;
+        }
+        #icon>i{
+            padding: 5px;
+            margin: 5px 10px;
+        }
+        #container{
+            display: flex;
+            margin-top: 5rem;
+        }
+        #sidebar{
+           
+            position: fixed;
+            top: 4.1rem;
+            padding: 15px;
+            font-size: 25px;
+            display: flex;
+            margin-left: -2px;
+            height: 100%;
+            flex-direction: column;
+            background-color: rgb(30, 30, 30);
+           
+        }
+        #sidebar>i{
+            margin-bottom: 3rem;
+            color: white;
+        }
+        #video{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+            width: 90%;
+            margin-left: 7%;
+        }
+       #box>img{
+           width: 100%;
+       }
+
+    </style>
+</head>
+<body>
+    <div id="navbar">
+      <div id="nav-left-child">
+        <i class="fa-solid fa-bars"></i>
+        <div id="logo">
+            <i class="fa-brands fa-youtube"></i>
+           <h2>YouTube</h2>
+        </div>
+      </div>
+      <div id="input">
+          <input type="text" id="query" placeholder="Search">
+          <i class="fa-solid fa-magnifying-glass" onclick="searchVideos()" ></i>
+          <!-- <button id="btn" onclick="searchVideos()">search</button> -->
+      </div>
+      <div id="icon">
+        <i class="fa-solid fa-video"></i>
+        <i class="fa-solid fa-table-cells"></i>
+        <i class="fa-solid fa-bell"></i>
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+    <div id="container">
+        <div id="sidebar">
+            <i class="fa-solid fa-house"></i>
+            <i class="fa-solid fa-compass"></i>
+            <i class="fa-solid fa-circle-play"></i>
+            <i class="fa-solid fa-share"></i>
+        </div>
+        <div id="video"></div>
+    </div>
+</body>
+</html>
+<!-- <iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/eczZGlrlgFs" 
+    title="YouTube video player"
+     frameborder="0"
+      allow="accelerometer; 
+      
+      autoplay; clipboard-write; 
+      
+      encrypted-media; gyroscope; 
+      picture-in-picture" allowfullscreen></iframe> -->
+<script src="script.js"></script>
+<!-- <script>
+ 
+
+   const api = `AIzaSyA3_AICM9pc6hUMuEQxVvBJ6GgY5pqDqLs`
+// 
+fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=44&key=${api}`).then((res)=>{
+       return res.json();
+}).then((res)=>{
+    console.log(res);
+    append1(res.items)
+})
+
+const  searchVideos = async () =>
+{
+
+    try{
+       const q = document.getElementById("query").value;
+       const res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&q=${q}&key=${api}`);
+
+       const data = await res.json()
+
+    //   console.log(data)
+    append(data.items);
+    }
+    catch(error){
+  console.log("err:" ,error)
+    }
+}
+
+const append = (videos) =>{
+   console.log(videos)
+    document.getElementById("video").innerHTML = null;
+    videos.forEach(({id:{videoId},snippet:{thumbnails:{medium:{url}}, title}})=>{
+                //  console.log(title)
+            let box = document.createElement("div");
+            box.setAttribute("id","box")
+            let thumbnail = document.createElement("img");
+            thumbnail.src = url;
+            thumbnail.addEventListener("click",()=>{
+               
+                var arr = [];
+                
+                console.log(videoId)
+                 arr.push(videoId);
+                 localStorage.setItem("videoId",JSON.stringify(arr));
+                window.location.href = "show.html"
+            })
+        //    let iframe = document.createElement("iframe");
+        //    iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        //    iframe.width = "100%";
+        //    iframe.height = "100%"
+        //    iframe.allow = "fullscreen"
+           let name = document.createElement("h4");
+           name.innerText = title
+           name.style.color = "white"
+           box.append(thumbnail,name);
+
+           document.getElementById("video").append(box);
+    })
+}
+const append1 = (videos) =>{
+  
+    document.getElementById("video").innerHTML = null;
+    videos.forEach(({id,snippet:{thumbnails:{medium:{url}}, title}})=>{
+                 
+            let box = document.createElement("div");
+            box.setAttribute("id","box")
+            let thumbnail = document.createElement("img");
+            thumbnail.src = url;
+            thumbnail.addEventListener("click",()=>{
+                var arr = [];
+                
+                console.log(id)
+                 arr.push(id);
+                 localStorage.setItem("videoId",JSON.stringify(arr));
+                window.location.href = "show.html"
+            })
+        //    let iframe = document.createElement("iframe");
+        //    iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        //    iframe.width = "100%";
+        //    iframe.height = "100%"
+        //    iframe.allow = "fullscreen"
+           let name = document.createElement("h4");
+           name.innerText = title
+           name.style.color = "white"
+           box.append(thumbnail,name);
+
+           document.getElementById("video").append(box);
+    })
+}
+
+
+
+</script> -->
